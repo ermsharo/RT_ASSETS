@@ -266,6 +266,22 @@
         "documentation": {}
     },
     {
+        "label": "pairwise",
+        "importPath": "itertools",
+        "description": "itertools",
+        "isExtraImport": true,
+        "detail": "itertools",
+        "documentation": {}
+    },
+    {
+        "label": "islice",
+        "importPath": "itertools",
+        "description": "itertools",
+        "isExtraImport": true,
+        "detail": "itertools",
+        "documentation": {}
+    },
+    {
         "label": "string",
         "kind": 6,
         "isExtraImport": true,
@@ -315,20 +331,20 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "collections",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "collections",
         "description": "collections",
         "detail": "collections",
-        "documentation": {}
-    },
-    {
-        "label": "islice",
-        "importPath": "itertools",
-        "description": "itertools",
-        "isExtraImport": true,
-        "detail": "itertools",
         "documentation": {}
     },
     {
@@ -1038,7 +1054,7 @@
         "kind": 2,
         "importPath": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
         "description": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
-        "peekOfCode": "def to_result_sarif(\n    path: str, line_number: int, column_number: int, rule_id: str, message: str\n):\n    return {\n        \"level\": \"error\",\n        \"locations\": [\n            {\n                \"physicalLocation\": {\n                    \"artifactLocation\": {\n                        \"uri\": path,",
+        "peekOfCode": "def to_result_sarif(\n    path: str,\n    start_line_number: int,\n    start_column_number: int,\n    end_line_number: Optional[int],\n    end_column_number: Optional[int],\n    rule_id: str,\n    message: str,\n):\n    region = {",
         "detail": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
         "documentation": {}
     },
@@ -1047,7 +1063,7 @@
         "kind": 2,
         "importPath": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
         "description": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
-        "peekOfCode": "def main(argv):\n    sqlfluff_json = json.load(sys.stdin)\n    results = []\n    for result in sqlfluff_json:\n        filepath = result[\"filepath\"]\n        for violation in result[\"violations\"]:\n            line_number = violation[\"line_no\"]\n            column_number = violation[\"line_pos\"]\n            rule_id = violation[\"code\"]\n            message = violation[\"description\"]",
+        "peekOfCode": "def main(argv):\n    sqlfluff_json = json.load(sys.stdin)\n    results = []\n    for result in sqlfluff_json:\n        filepath = result[\"filepath\"]\n        for violation in result[\"violations\"]:\n            # In sqlfluff 3.0.0, line_no/line_pos replaced with start_*/end_*\n            start_line_number = violation.get(\"start_line_no\", violation.get(\"line_no\"))\n            start_column_number = violation.get(\n                \"start_line_pos\", violation.get(\"line_pos\")",
         "detail": ".trunk.plugins.trunk.linters.sqlfluff.sqlfluff_to_sarif",
         "documentation": {}
     },
